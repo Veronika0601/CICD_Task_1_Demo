@@ -21,7 +21,19 @@ public class TC01IfUserIsInvalidTryAgainTest
     [SetUp]
     public void SetUp()
     {
-        driver = new ChromeDriver();
+        ChromeOptions options = new ChromeOptions();
+        options.AddArgument("headless");
+        options.AddArgument("no-sandbox");
+        options.AddArgument("disable-gpu");
+        options.AddArgument("disable-dev-shm-usage");
+
+
+        string userDataPath = Path.Combine(Path.GetTempPath(),Path.GetRandomFileName());
+        Directory.CreateDirectory(userDataPath);
+
+        options.AddArgument($"--user-data-path={userDataPath}");
+
+        driver = new ChromeDriver(options);
         js = (IJavaScriptExecutor)driver;
         vars = new Dictionary<string, object>();
     }
